@@ -11,7 +11,9 @@ body {
 }
 
 .hi-scores {
-	color: white;
 	background-color: blue;
+	color: white;
+	margin: auto;
+	width: 200px;
 }
 
