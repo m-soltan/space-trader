@@ -3,18 +3,35 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    color: white;
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
     margin-bottom: 0;
 }
 
+p {
+    font-size: 20pt;
+    text-align: center;
+    background-color: black;
+    margin: auto;
+    position: relative;
+    top: 10px;
+    width: 40%;
+}
+
 table {
-    border: 1px solid grey;
+    border: 2px solid grey;
+    table-layout: fixed;
+    width: 100%
 }
 
 th {
     text-align: left;
+}
+
+td {
+    /*width: 8%;*/
 }
 
 tr:nth-child(even) {
@@ -22,13 +39,15 @@ tr:nth-child(even) {
 }
 
 .hi-scores {
-    background-color: black;
-    /*border: 100px;*/
-    color: white;
-    font-size: 14pt;
     margin: auto;
     position: relative;
     top: 50px;
     width: 800px;
+}
+
+.score-table {
+    background-color: black;
+    font-size: 14pt;
+    margin: auto;
 }
 
