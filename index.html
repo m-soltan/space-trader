@@ -6,9 +6,16 @@
   </head>
   <body>
   	<!-- TODO: more in this div -->
-    <div class="hi-scores">
-      <table class="score-table">
-        <th>specimen</th><th>fitness</th>
+    <!-- TODO: inheritance from div to form and table -->
+    <div class="start-screen">
+        <form action="" method="submit" class="bigger">
+          <input type="submit" name="" value="Start">
+          <input type="submit" name="" value="Help">
+          <input type="submit" name="" value="About">
+        </form>
+      <table class="score-table" class="item">
+        <caption><p class="bigger">High scores</p></caption>
+        <th>name</th><th>score</th>
         <tr><td>a1</td><td>a2</td></tr>
         <tr><td>b1</td><td>b2</td></tr>
         <tr><td>c1</td><td>c2</td></tr>
@@ -17,7 +24,6 @@
         <tr><td>f1</td><td>f2</td></tr>
         <tr><td>g1</td><td>g2</td></tr>
       </table>
-      <p><a>Start</a></p>
     </div>
   </body>
 </html>
