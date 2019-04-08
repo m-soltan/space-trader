@@ -1,9 +1,12 @@
 body {
+    background-color: black;
     background-image: url('nebula.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    color: #404040;
+    color: #a0a0a0;
+    font-family: "Gill Sans", sans-serif;
+    font-size: 14pt;
     margin-left: 0px;
     margin-right: 0px;
     margin-top: 0px;
@@ -11,31 +14,42 @@ body {
 }
 
 caption {
-    background-color: var(--frame);
+    background-color: var(--bg-frame);
+    font-size: var(--font-big);
 }
 
 form {
-    /*border: 2px solid grey;*/
-    padding: 10px;
-    width: 300px;
+    /*padding: 10px;*/
+    /*width: 350px;*/
 }
 
-input {
-    background-color: var(--frame);
-    border-color: var(--frame);
-    height: 50px;
-    margin-bottom: 40px;
-    width: 100%;
+button {
+    background-color: var(--bg-frame);
+    border-color: var(--bg-frame);
+    color: inherit;
+    height: 300px;
+    margin: 20px;
+    padding-bottom: -300px;
+    /*margin-bottom: 40px;*/
+
+    /*width: 185px;*/
 }
 
-.score-table {
-    border: 2px solid var(--frame);
-    table-layout: fixed;
-
+button img {
+    height: 240px;
+    margin: -5px;
+    margin-top: -20px;
+    object-fit: cover;
+    width: 180px;
 }
+
+table {
+/*    padding: 10px;
+*/}
 
 td {
-    opacity: 1;
+    /*margin: -20px;*/
+    /*border: 2px solid var(--bg-frame);*/
 }
 
 th {
@@ -43,37 +57,28 @@ th {
 }
 
 tr {
-    background-color: var(--date-medium);
-}
-
-tr.space-under>td {
-  padding-bottom: 1em;
+    background: rgb(96, 96, 96);
+    color: black;
 }
 
 tr:nth-child(even) {
-    background-color: var(--data-light);
+    background: rgb(0, 0, 0); /* fallback */
+    background: rgba(32, 32, 32, 0.9);
+    color: white;
 }
 
-/*tr:nth-child(odd) {
-    background-color: #6ddbdb;
-}
-*/
-.bigger {
-    font-size: 20pt
-    font-variant: petite-caps;
-    padding: 0 20px;
-}
-
-.navigation {
-    font-size: 20pt;
-    text-align: center;
-    background-color: yellow;
-    width: 400px;
+div.start-screen button, caption {
+    font-family: "Gill Sans", sans-serif;
+    font-size: var(--font-big);
 }
 
 .score-table {
-    font-size: 14pt;
+    /*border: 2px solid var(--bg-frame);*/
+    font-size: var(--font-small);
+    font-family: "Gill Sans", sans-serif;
+    margin: 20px;
     width: 400px;
+    max-width: 100%;
 }
 
 .start-screen {
@@ -86,7 +91,8 @@ tr:nth-child(even) {
 }
 
 :root {
-    --data-light: #f9d959;
-    --date-medium: #fcbc25;
-    --frame: #6ddb7a;
+    /*--bg-frame: #6ddb9a;*/
+    --bg-frame: #202020;
+    --font-small: 14pt;
+    --font-big: 20pt;
 }
