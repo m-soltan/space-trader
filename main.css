@@ -19,37 +19,6 @@ caption {
 }
 
 form {
-    /*padding: 10px;*/
-    /*width: 350px;*/
-}
-
-/*button {
-    background-color: var(--bg-frame);
-    border-color: var(--bg-frame);
-    color: inherit;
-    height: 300px;
-    margin: 20px;
-}
-*/
-.card {
-    background-color: var(--bg-frame);
-    border-color: var(--bg-frame);
-    color: inherit;
-    height: 300px;
-    margin: 20px;
-    text-align: center;
-}
-
-.card input {
-    background: none;
-    border: 2px solid #774f09;
-    height: 300px;
-    left: 0px;
-    margin: 0px;
-    position: relative;
-    width: 200px;
-    top: -297px;
-    z-index: 1;
 }
 
 iframe {
@@ -64,7 +33,7 @@ img {
 }
 
 table {
-/*    padding: 10px;*/
+
 }
 
 td {
@@ -102,19 +71,63 @@ div.game-screen .card, caption {
     height: 100%;
     margin: 0px;
     position: fixed;
+    top: 0px;
     width: 100%;
+}
+
+.card {
+    background-color: var(--bg-frame);
+    border-color: var(--bg-frame);
+    color: inherit;
+    height: 300px;
+    margin: 20px;
+    text-align: center;
+}
+
+.card input {
+    background: none;
+    border: 2px solid #774f09;
+    height: 300px;
+    left: 0px;
+    margin: 0px;
+    position: relative;
+    width: 200px;
+    top: -297px;
+    z-index: 1;
+}
+
+.description {
+    background-color: yellow;
+    height: 100%;
+    margin-left: calc(-0.5 * 1000px);
+    position: fixed;
+    width: 1000px;
+}
+
+.double-list {
+    font-size: var(--font-small);
+    font-family: "Gill Sans", sans-serif;
+    margin: 20px;
+    width: 400px;
+    max-width: 90%;
 }
 
 .err-message {
     color: red;
 }
 
+.game-screen {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    position: relative;
+    top: 50px;
+}
+
 .login-form {
     background-color: green;
-    font-family: "Gill Sans", sans-serif;
-    /*height: 300px;*/
-    left: calc(50% - 250px);
-    margin: 0px;
+    font-family: inherit;
+    margin-left: -250px;
     margin-top: 40px;
     padding: 20px;
     position: fixed;
@@ -126,25 +139,15 @@ div.game-screen .card, caption {
     width: calc(100% - 30px);
 }
 
-.double-list {
-    font-size: var(--font-small);
+.pop-up {
     font-family: "Gill Sans", sans-serif;
-    margin: 20px;
-    width: 400px;
-    max-width: 90%;
-}
-
-.game-screen {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    /*margin: auto;*/
-    position: relative;
-    top: 50px;
+    left: 50%;
+    margin: 0px;
+    position: fixed;
+    width: 0px;
 }
 
 :root {
-    /*--bg-frame: #6ddb9a;*/
     --bg-frame: #202020;
     --font-small: 14pt;
     --font-big: 20pt;
