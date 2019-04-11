@@ -88,6 +88,7 @@ div.game-screen .card, caption {
 .description {
     background-color: var(--bg-frame);
     border: 2px solid var(--color-border);
+    max-width: 90%;
     overflow-y: scroll;
     width: 1000px;
 }
@@ -153,15 +154,14 @@ div.game-screen .card, caption {
 }
 
 .pop-up > a {
+    background: rgb(0, 0, 0); /* fallback */
+    background-color: rgba(0, 0, 0, 0.65);
     color: inherit;
     height: 100%;
     text-decoration: inherit;
     max-width: calc(50% - 500px);
-    width: 100%;
-}
-
-:hover {
-    border: 2px solid red;
+    min-width: 15%;
+    /*width: 100%;*/
 }
 
 :root {
