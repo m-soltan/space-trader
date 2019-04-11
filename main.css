@@ -9,7 +9,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    color: #a0a0a0;
+    color: var(--color-font);
     font-family: "Gill Sans", sans-serif;
     font-size: 14pt;
     margin-left: 0px;
@@ -29,8 +29,6 @@ img {
     object-fit: cover;
     width: 180px;
 }
-
-table {}
 
 td {
     width: 400px;
@@ -83,7 +81,7 @@ div.game-screen .card, caption {
 
 .card input {
     background: none;
-    border: 2px solid #774f09;
+    border: 2px solid var(--color-border);
     height: 300px;
     left: 0px;
     margin: 0px;
@@ -94,11 +92,19 @@ div.game-screen .card, caption {
 }
 
 .description {
-    background-color: grey;
+    --description-width: 1000px;
+    background-color: var(--bg-frame);
+    border: 2px solid var(--color-border);
     height: 100%;
-    margin-left: calc(-0.5 * 1000px);
+    margin-left: calc(-0.5 * var(--description-width));
+    overflow-y: scroll;
     position: fixed;
-    width: 1000px;
+    width: var(--description-width);
+}
+
+.description .double-list {
+    /*position: absolute;*/
+    border: 2px solid var(--color-border);
 }
 
 .double-list {
@@ -118,6 +124,7 @@ div.game-screen .card, caption {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    overflow: scroll;
     position: relative;
     top: 50px;
 }
@@ -129,6 +136,7 @@ div.game-screen .card, caption {
 
 .login-form {
     background-color: var(--bg-frame);
+    border: 2px solid var(--color-border);
     font-family: inherit;
     margin-left: -250px;
     margin-top: 40px;
@@ -152,6 +160,7 @@ div.game-screen .card, caption {
 
 :root {
     --bg-frame: #202020;
+    --color-border: #774f09;
     --color-font: #a0a0a0;
     --testing-color: grey;
     --font-small: 14pt;
