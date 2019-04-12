@@ -44,7 +44,8 @@ tr > td,th {
 }
 
 tr:nth-child(even) {
-    background: rgb(0, 0, 0); /* fallback */
+    /* fallback */
+    background: rgb(0, 0, 0);
     background: rgba(32, 32, 32, 0.9);
     color: white;
 }
@@ -55,7 +56,8 @@ div.game-screen .card, caption {
 }
 
 .backdrop {
-    background: rgb(0, 0, 0); /* fallback */
+    /* fallback */
+    background: rgb(0, 0, 0); 
     background-color: rgba(0, 0, 0, 0.65);
     height: 100%;
     margin: 0px;
@@ -154,14 +156,14 @@ div.game-screen .card, caption {
 }
 
 .pop-up > a {
-    background: rgb(0, 0, 0); /* fallback */
+    /* fallback */
+    background: rgb(0, 0, 0); 
     background-color: rgba(0, 0, 0, 0.65);
     color: inherit;
     height: 100%;
     text-decoration: inherit;
     max-width: calc(50% - 500px);
     min-width: 15%;
-    /*width: 100%;*/
 }
 
 :root {
