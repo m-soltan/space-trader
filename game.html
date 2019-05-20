@@ -7,7 +7,7 @@
   </head>
   <body>
     <!-- main game screen -->
-    <div style="display: none">
+    <div>
       <div class="info-box">
         <p>Logged in as Cuban_Pete</p>
         <p><a href="#">Log out</a></p>
@@ -59,29 +59,15 @@
             <div>Arrakis</div>
           </td></tr>
         </table>
-        <table class="double-list">
-          <caption>Observable planets</caption>
-          <tr><th><div>Name</div><div>Coordinates</div></th></tr>
-          <tr><td><a href="#">Alderaan</a><div>15, 32</div></td></tr>
-          <tr><td><a href="#">Argoland</a><div>59, 44</div></td></tr>
-          <tr><td><a href="#">Arrakis</a><div>81, 34</div></td></tr>
-          <tr><td><a href="#">Corellia</a><div>43, 69</div></td></tr>
-          <tr><td><a href="#">Encja</a><div>91, 32</div></td></tr>
-          <tr><td><a href="#">Gaia</a><div>75, 76</div></td></tr>
-          <tr><td><a href="#">Ksi</a><div>91, 71</div></td></tr>
-          <tr><td><a href="#">Leonida</a><div>32, 5</div></td></tr>
-          <tr><td><a href="#">NowWhat</a><div>35, 41</div></td></tr>
-          <tr><td><a href="#">Sur'Kesh</a><div>39, 31</div></td></tr>
-          <tr><td><a href="#">Tairia</a><div>36, 84</div></td></tr>
-          <tr><td><a href="#">Tatooine</a><div>47, 68</div></td></tr>
-          <tr><td><a href="#">Tuchanka</a><div>27, 76</div></td></tr>
-          <tr><td><a href="#">Ziemia</a><div>94, 24</div></td></tr>
+        <table class="double-list" id="planets">
+          <!-- <caption>Observable planets</caption> -->
+          <!-- <tr><th><div>Name</div><div>Coordinates</div></th></tr> -->
         </table>
      </div>
     </div>
 
     <!-- planet -->
-    <div class="pop-up">
+    <div class="pop-up" style="display: none">
         <a href="#"></a>
         <div class="description">
           <h1>Gaia</h1>
@@ -108,7 +94,7 @@
       </div>
 
     <!-- ship at planet -->
-    <div class="pop-up">
+    <div class="pop-up" style="display: none">
       <a href="#"></a>
       <div class="description">
         <h1>Gaia</h1>
@@ -118,7 +104,7 @@
             <tr><th><div>Name</div><div></div></th></tr>
             <tr><td><a href="#">Normandy SR2</a></td></tr>
           </table>
-          <table class="double-list">
+          <table class="double-list" id="PlanetsList">
             <caption>Stockpile</caption>
             <tr><th><div>Good type</div><div>Stock</div></th></tr>
             <tr><td><div>Cynamon</div><div>80</div></td></tr>
@@ -150,5 +136,6 @@
       </div>
       <a href="#"></a>
     </div>
+    <script src="main.js"></script>
   </body>
 </html>
