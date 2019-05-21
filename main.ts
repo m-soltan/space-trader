@@ -1,31 +1,3 @@
-interface IItem {
-    [name: string]: {
-        available: number;
-        buy_price: number;
-        sell_price: number;  
-    }
-}
-
-interface IPlanet {
-    [name: string]: {
-        available_items?: IItem;
-        x: number;
-        y: number;
-    }
-}
-
-interface IStarship {
-    cargo_hold_size: number;
-    position: IPlanet;
-}
-
-interface IGameState {
-    game_duration: number;
-    initial_credits: number;
-    items?: IItem;
-    planets?: IPlanet;
-}
-
 const jsonString : string = `{
         "game_duration": 300,
         "initial_credits": 1984,
@@ -762,23 +734,63 @@ const jsonString : string = `{
     }
 `;
 
+interface IItem {
+    [name: string]: {
+        available: number;
+        buy_price: number;
+        sell_price: number;  
+    }
+}
+
+interface IPlanet {
+    [name: string]: {
+        available_items?: IItem;
+        x: number;
+        y: number;
+    }
+}
+
+interface IStarship {
+    cargo_hold_size: number;
+    position: IPlanet;
+}
+
+interface IGameState {
+    game_duration: number;
+    initial_credits: number;
+    items?: IItem;
+    planets?: IPlanet;
+}
+
+function planetGetXY(planet : IPlanet) {
+    return new String()
+            .concat(planet.x.toString())
+            .concat(", ")
+            .concat(planet.y.toString())
+}
+
 function listPlanets(planets : IPlanet[]) {
-    // let table = <HTMLTableElement> document.getElementById("PlanetsList");
-    // let tBody = table.createTBody();
-    // console.log("TEST");
-    // for (let i = 0; i < 10; ++i) {
-    //     console.log(i);
-    //     let row = tBody.insertRow();
-    //     let cell = row.insertCell();
-    //     cell.textContent = "<div>TEXT</div>";
-    // }
-    let table : HTMLTableElement = <HTMLTableElement> document.getElementById("planets");
-    let v = table.createTBody();
-    let row = v.insertRow();
-    let cell1 = row.insertCell();
-    let cell2 = row.insertCell();
-    cell1.textContent = "NEW CELL1";
-    cell2.textContent = "NEW CELL2";
+    let table = <HTMLTableElement> document.getElementById("planets");
+    let tBody = table.createTBody();
+    console.log("TEST");
+    for (let p in planets) {
+        let row = tBody.insertRow();
+        let cell = row.insertCell();
+        let left = document.createElement('div');
+        let right = document.createElement('div');
+        cell.appendChild(left);
+        cell.appendChild(right);
+        left.textContent = p;
+        let coords = planets[p].x.toString();
+        right.textContent = planetGetXY(planets[p]);
+    }
+    // let table : HTMLTableElement = <HTMLTableElement> document.getElementById("planets");
+    // let v = table.createTBody();
+    // let row = v.insertRow();
+    // let cell1 = row.insertCell();
+    // let cell2 = row.insertCell();
+    // cell1.textContent = "NEW CELL1";
+    // cell2.textContent = "NEW CELL2";
 
 }
 
