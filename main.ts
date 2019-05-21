@@ -772,7 +772,6 @@ function planetGetXY(planet : IPlanet) {
 function listPlanets(planets : IPlanet[]) {
     let table = <HTMLTableElement> document.getElementById("planets");
     let tBody = table.createTBody();
-    console.log("TEST");
     for (let p in planets) {
         let row = tBody.insertRow();
         let cell = row.insertCell();
@@ -781,31 +780,35 @@ function listPlanets(planets : IPlanet[]) {
         cell.appendChild(left);
         cell.appendChild(right);
         left.textContent = p;
-        let coords = planets[p].x.toString();
         right.textContent = planetGetXY(planets[p]);
     }
-    // let table : HTMLTableElement = <HTMLTableElement> document.getElementById("planets");
-    // let v = table.createTBody();
-    // let row = v.insertRow();
-    // let cell1 = row.insertCell();
-    // let cell2 = row.insertCell();
-    // cell1.textContent = "NEW CELL1";
-    // cell2.textContent = "NEW CELL2";
-
 }
 
 
-// function listStarships(starships : any) {
-    // let table = 
-// }
+function listStarships(starships : IStarship[]) {
+    let table = <HTMLTableElement> document.getElementById("starships");
+    let tBody = table.createTBody();
+    console.log(starships[0]);
+    for (let i in starships) {
+        let row = tBody.insertRow();
+        let cell = row.insertCell();
+        let left = document.createElement('div');
+        let right = document.createElement('div');
+        cell.appendChild(left);
+        cell.appendChild(right);
+        left.textContent = i;
+        right.textContent = starships[i].position.toString();
+    }
+}
 
 let parsed = JSON.parse(jsonString);
 
-let planets = parsed.planets;
-let starships = parsed.ships as IStarship;
+// let planets = parsed.planets;
+let starships = parsed.starships;
 let credits : number = parsed.initial_credits;
 
-listPlanets(planets);
+listPlanets(parsed.planets);
+listStarships(starships);
 
 // let table = <HTMLTableElement> document.getElementById('Planets_table');
 // iterate over planets and write into table
