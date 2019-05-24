@@ -734,81 +734,263 @@ const jsonString : string = `{
     }
 `;
 
-interface IItem {
-    [name: string]: {
-        available: number;
-        buy_price: number;
-        sell_price: number;  
+class Good {
+    public name: string;
+    public available: number;
+    public buy_price: number;
+    public sell_price: number;  
+}
+
+class Planet {
+    public name: string;
+    public available_items: { [index : number]: Good };
+    public x: number;
+    public y: number;
+}
+
+class Starship {
+    public name: string; 
+    public cargo_hold: { [name: string]: Good; };
+    public cargo_hold_size: number;
+    public position: Planet;
+
+    public constructor() {
+        this.cargo_hold = {};
     }
 }
 
-interface IPlanet {
-    [name: string]: {
-        available_items?: IItem;
-        x: number;
-        y: number;
+class GameState {
+    public game_duration: number;
+    public initial_credits: number;
+    public items: Good;
+    public planets: { [name: string]: Planet; };
+    public starships: { [name: string]: Starship; };
+
+    public constructor() {
+        this.planets = {};
+        this.starships = {};
     }
 }
 
-interface IStarship {
-    cargo_hold_size: number;
-    position: IPlanet;
+function clear(x : HTMLTableElement) {
+    while (x.rows.length > 1) {
+        x.deleteRow(1);
+    }
 }
 
-interface IGameState {
-    game_duration: number;
-    initial_credits: number;
-    items?: IItem;
-    planets?: IPlanet;
+function clickPlanet(planet : string) {
+    let screen = whichScreen();
+    if (screen === screenPlanet) {
+        return;
+    }
+    if (screen === screenStarship) {
+        return;
+    }
+    setPlanet(planet);
+    listGoods(planet);
+    listStarshipsAt(planet);
+    document.getElementById(screenPlanet).style.display = displayTrue;
+    return;
+    
 }
 
-function planetGetXY(planet : IPlanet) {
+function closePopups() {
+    document.getElementById(screenPlanet).style.display = displayFalse;
+    document.getElementById(screenStarship).style.display = displayFalse;
+}
+
+function listCargo(starship : string) {
+    let elements = document.getElementsByClassName("cargo");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        clear(el);
+        for (let j in game.starships[starship].cargo_hold) {
+            let cell = el.insertRow().insertCell();
+            let left = makeDiv();
+            cell.appendChild(left);
+            left.textContent = j;
+            
+            let right = makeDiv();
+            cell.appendChild(right);
+            right.textContent = game.starships[starship].cargo_hold[j].available.toString();
+        }
+    }
+}
+
+function listGoods(planet : string) {
+    let elements = document.getElementsByClassName("stockpile");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        clear(el);
+        for (let j in game.planets[planet].available_items) {
+            let cell = el.insertRow().insertCell();
+            let left = makeDiv();
+            cell.appendChild(left);
+            left.textContent = j;
+
+            let right = makeDiv();
+            cell.appendChild(right);
+            right.textContent = game.planets[planet].available_items[j].available.toString();
+        }
+    }
+}
+
+function listPlanets() {
+    let elements = document.getElementsByClassName("planets");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        clear(el);
+        for (let j in game.planets) {
+            let cell = el.insertRow().insertCell();
+            let left = makeDiv();
+            cell.appendChild(left);
+            left.textContent = j;
+            left.onclick = () => clickPlanet(j);
+
+            let right = makeDiv();
+            cell.appendChild(right);
+            right.textContent = planetGetXY(game.planets[j]);
+        }
+    }
+}
+
+function listStarships() {
+    let elements = document.getElementsByClassName("starships");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        clear(el);
+        for (let j in game.starships) {
+            let cell = el.insertRow().insertCell();
+            let planet = game.starships[j].position.toString();
+            let left = makeDiv();
+            cell.appendChild(left);
+            left.textContent = j;
+            left.onclick = () => showStarshipAtPlanet(j);
+
+            let right = makeDiv();
+            cell.appendChild(right);
+            right.textContent = planet;
+            right.onclick = () => clickPlanet(planet)
+        }
+    }
+}
+
+function listStarshipsAt(planet : string) {
+    let elements = document.getElementsByClassName("orbit");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        clear(el);
+        for (let j in game.starships) {
+            let planet1 = game.starships[j].position.toString();
+            if (planet1 === planet) {
+                let cell = el.insertRow().insertCell();
+                let left = makeDiv();
+                cell.appendChild(left);
+                left.textContent = j;
+                left.onclick = () => showStarshipAtPlanet(j);
+
+                let right = makeDiv();
+                cell.appendChild(right);
+                right.textContent = planet;
+            }
+        }
+    }
+}
+
+// function listStarshipsOld() {
+//     let tBody = newTableAt("starships");
+//     for (let i in game.starships) {
+//         let cell = tBody.insertRow().insertCell();
+//         let planet = game.starships[i].position.toString();
+//         let left = makeDiv();
+//         cell.appendChild(left);
+//         left.textContent = i;
+//         left.onclick = () => showStarshipAtPlanet(i);
+//         let right = makeDiv();
+//         cell.appendChild(right);
+//         right.textContent = planet;
+//         right.onclick = () => clickPlanet(planet);
+//     }
+// }
+
+// function newTableAt(s : string) {
+//     let table = <HTMLTableElement> document.getElementById(s);
+//     clear(table);
+//     return table;
+// }
+
+function makeDiv() {
+    return document.createElement("div");
+}
+
+function planetGetXY(planet : Planet) {
     return new String()
             .concat(planet.x.toString())
             .concat(", ")
             .concat(planet.y.toString())
 }
 
-function listPlanets(planets : IPlanet[]) {
-    let table = <HTMLTableElement> document.getElementById("planets");
-    let tBody = table.createTBody();
-    for (let p in planets) {
-        let row = tBody.insertRow();
-        let cell = row.insertCell();
-        let left = document.createElement('div');
-        let right = document.createElement('div');
-        cell.appendChild(left);
-        cell.appendChild(right);
-        left.textContent = p;
-        right.textContent = planetGetXY(planets[p]);
+function setPlanet(x : string) {
+    let elements = document.getElementsByClassName("planet-name");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = elements[i];
+        el.textContent = x;
     }
 }
 
-
-function listStarships(starships : IStarship[]) {
-    let table = <HTMLTableElement> document.getElementById("starships");
-    let tBody = table.createTBody();
-    console.log(starships[0]);
-    for (let i in starships) {
-        let row = tBody.insertRow();
-        let cell = row.insertCell();
-        let left = document.createElement('div');
-        let right = document.createElement('div');
-        cell.appendChild(left);
-        cell.appendChild(right);
-        left.textContent = i;
-        right.textContent = starships[i].position.toString();
+function setStarship(x : string) {
+    let elements = document.getElementsByClassName("starship-name");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = elements[i];
+        el.textContent = x;
     }
 }
+
+function showStarshipAtPlanet(x : string) {
+    let style = document.getElementById(screenStarship).style;
+    let starship : Starship = game.starships[x];
+    let planet : string = starship.position.toString();
+    setPlanet(planet);
+    setStarship(x);
+    listCargo(x);
+    listGoods(planet);
+    style.display = displayTrue;
+}
+
+function whichScreen() {
+    if (document.getElementById(screenStarship).style.display === displayTrue) {
+        return screenStarship;
+    }
+    if (document.getElementById(screenPlanet).style.display === displayTrue) {
+        return screenPlanet;
+    }
+    return new String();
+}
+
+const displayFalse = "none";
+const displayTrue = "flex";
+const screenPlanet = "planet-pop-up";
+const screenStarship = "ship-at-planet";
 
 let parsed = JSON.parse(jsonString);
-
-// let planets = parsed.planets;
-let starships = parsed.starships;
 let credits : number = parsed.initial_credits;
+let game = new GameState();
 
-listPlanets(parsed.planets);
-listStarships(starships);
+closePopups();
 
-// let table = <HTMLTableElement> document.getElementById('Planets_table');
-// iterate over planets and write into table
+for (let i in parsed.planets) {
+    game.planets[i] = parsed.planets[i];
+    game.planets[i].name = i;
+    let items = parsed.planets.available_items;
+    for (let j in items) {
+        let item : Good = parsed.planets[i].available_items[j];
+        game.planets[i].available_items[j] = item;
+    }
+}
+
+for (let i in parsed.starships) {
+    game.starships[i] = parsed.starships[i];
+}
+
+listPlanets();
+listStarships();
