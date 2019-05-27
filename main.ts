@@ -734,41 +734,102 @@ const jsonString : string = `{
     }
 `;
 
+const timeMultiplier = 1000;
+
+const displayFalse = "none";
+const displayTrue = "flex";
+const tableStarships = "starships";
+const screenTrade = "buy-sell";
+const screenGameOver = "game-over";
+const screenPlanet = "planet-pop-up";
+const screenStarshipAtPlanet = "ship-at-planet";
+const screenStarshipEnRoute = "starship-en-route";
+const hyperspace = "Hyperspace";
+
 class Good {
     public name: string;
     public available: number;
     public buy_price: number;
     public sell_price: number;  
+
+    public constructor(name : string, planet : string) {
+        let items = parsed.planets[planet].available_items;
+        this.name = name;
+        this.available = parseInt(items[name].available);
+        this.buy_price = parseInt(items[name].buy_price);
+        this.sell_price = parseInt(items[name].sell_price);
+    }
 }
 
-class Planet {
+class Position {
     public name: string;
     public available_items: { [index : number]: Good };
     public x: number;
     public y: number;
+
+    public constructor(name : string) {
+        this.name = name;
+        this.available_items = {};
+        this.x = parsed.planets[name].x;
+        this.y = parsed.planets[name].y;
+    }
 }
 
 class Starship {
+    public enRoute: boolean;
     public name: string; 
     public cargo_hold: { [name: string]: Good; };
     public cargo_hold_size: number;
-    public position: Planet;
+    public position: string;
 
-    public constructor() {
+    public constructor(name : string) {
+        let size : number;
+        this.enRoute = false;
+        this.name = name;
         this.cargo_hold = {};
+        size = parsed.starships[name].cargo_hold_size;
+        this.cargo_hold_size = size;
+        this.position = parsed.starships[name].position;
     }
 }
 
 class GameState {
-    public game_duration: number;
-    public initial_credits: number;
+    public credits: number;
+    public currentPlanet: string;
+    public currentStarship: string;
+    public gameDuration: number;
     public items: Good;
-    public planets: { [name: string]: Planet; };
+    public planets: { [name: string]: Position; };
+    public remainingTime: number;
     public starships: { [name: string]: Starship; };
 
     public constructor() {
         this.planets = {};
         this.starships = {};
+    }
+}
+
+let credits : number;
+let game : GameState;
+let parsed : any;
+
+function arrive(starship : string) {
+    if (starship === game.currentStarship) {
+        if (whichScreen() === screenStarshipEnRoute) {
+            showStarshipAtPlanet(starship);
+        }
+    }
+    game.starships[starship].enRoute = false;
+    let elements = document.getElementsByClassName(tableStarships);
+    let position = game.starships[starship].position;
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLTableElement> elements[i];
+        for (let j in el.rows) {
+            let children = el.rows[j].cells[0].children;
+            if (children[0].textContent === starship) {
+                children[1].textContent = position;
+            }
+        }
     }
 }
 
@@ -783,7 +844,9 @@ function clickPlanet(planet : string) {
     if (screen === screenPlanet) {
         return;
     }
-    if (screen === screenStarship) {
+    if (screen === screenStarshipAtPlanet) {
+        depart(planet);
+        setPlanet(planet);
         return;
     }
     setPlanet(planet);
@@ -794,9 +857,55 @@ function clickPlanet(planet : string) {
     
 }
 
+function clickStarship(starship : string) {
+    setStarship(starship);
+    if (game.starships[starship].enRoute) {
+        showStarshipEnRoute(starship);
+        return;
+    }
+    showStarshipAtPlanet(starship);
+}
+
 function closePopups() {
-    document.getElementById(screenPlanet).style.display = displayFalse;
-    document.getElementById(screenStarship).style.display = displayFalse;
+    let elements = document.getElementsByClassName("pop-up");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLElement> elements[i];
+        el.style.display = displayFalse;
+    }
+    listPlanets();
+    listStarships();
+}
+
+function creditsUpdate(x: number) {
+    game.credits += x;
+    let elements = document.getElementsByClassName("credits");
+    for (let i = 0; i < elements.length; ++i) {
+        let el = <HTMLElement> elements[i];
+        el.textContent = game.credits.toString();
+    }
+}
+
+function depart(destination : string) {
+    let starship = game.starships[game.currentStarship];
+    starship.enRoute = true;
+    starship.position = destination;
+    showStarshipEnRoute(game.currentStarship);
+    setTimeout(() => {
+        arrive(game.currentStarship)
+    }, timeMultiplier * getDistance(destination))
+}
+
+function gameOver() {
+    creditsUpdate(0);
+    showGameOver();
+}
+
+function getDistance(destination : string) {
+    let x = game.planets[destination].x;
+    let y = game.planets[destination].y;
+    let diffX = game.planets[game.currentPlanet].x - x;
+    let diffY = game.planets[game.currentPlanet].y - y;
+    return Math.round(Math.sqrt(diffX ** 2 + diffY ** 2));
 }
 
 function listCargo(starship : string) {
@@ -855,21 +964,25 @@ function listPlanets() {
 }
 
 function listStarships() {
-    let elements = document.getElementsByClassName("starships");
+    let elements = document.getElementsByClassName(tableStarships);
     for (let i = 0; i < elements.length; ++i) {
         let el = <HTMLTableElement> elements[i];
         clear(el);
         for (let j in game.starships) {
+            let starship = game.starships[j];
             let cell = el.insertRow().insertCell();
-            let planet = game.starships[j].position.toString();
+            let planet = game.starships[j].position;
             let left = makeDiv();
             cell.appendChild(left);
             left.textContent = j;
-            left.onclick = () => showStarshipAtPlanet(j);
+            left.onclick = () => clickStarship(j);
 
             let right = makeDiv();
             cell.appendChild(right);
             right.textContent = planet;
+            if (starship.enRoute) {
+                right.textContent = "hyperspace"
+            }
             right.onclick = () => clickPlanet(planet)
         }
     }
@@ -887,7 +1000,7 @@ function listStarshipsAt(planet : string) {
                 let left = makeDiv();
                 cell.appendChild(left);
                 left.textContent = j;
-                left.onclick = () => showStarshipAtPlanet(j);
+                left.onclick = () => clickStarship(j);
 
                 let right = makeDiv();
                 cell.appendChild(right);
@@ -897,33 +1010,11 @@ function listStarshipsAt(planet : string) {
     }
 }
 
-// function listStarshipsOld() {
-//     let tBody = newTableAt("starships");
-//     for (let i in game.starships) {
-//         let cell = tBody.insertRow().insertCell();
-//         let planet = game.starships[i].position.toString();
-//         let left = makeDiv();
-//         cell.appendChild(left);
-//         left.textContent = i;
-//         left.onclick = () => showStarshipAtPlanet(i);
-//         let right = makeDiv();
-//         cell.appendChild(right);
-//         right.textContent = planet;
-//         right.onclick = () => clickPlanet(planet);
-//     }
-// }
-
-// function newTableAt(s : string) {
-//     let table = <HTMLTableElement> document.getElementById(s);
-//     clear(table);
-//     return table;
-// }
-
 function makeDiv() {
     return document.createElement("div");
 }
 
-function planetGetXY(planet : Planet) {
+function planetGetXY(planet : Position) {
     return new String()
             .concat(planet.x.toString())
             .concat(", ")
@@ -931,66 +1022,121 @@ function planetGetXY(planet : Planet) {
 }
 
 function setPlanet(x : string) {
+    game.currentPlanet = x;
     let elements = document.getElementsByClassName("planet-name");
     for (let i = 0; i < elements.length; ++i) {
-        let el = elements[i];
+        let el = <HTMLTableElement> elements[i];
         el.textContent = x;
     }
 }
 
 function setStarship(x : string) {
+    game.currentStarship = x;
     let elements = document.getElementsByClassName("starship-name");
     for (let i = 0; i < elements.length; ++i) {
-        let el = elements[i];
+        let el = <HTMLTableElement> elements[i];
         el.textContent = x;
     }
 }
 
-function showStarshipAtPlanet(x : string) {
-    let style = document.getElementById(screenStarship).style;
-    let starship : Starship = game.starships[x];
-    let planet : string = starship.position.toString();
+function showTrade(good : string) {
+    closePopups();
+    let style = document.getElementById(screenTrade).style;
+    style.display = displayTrue;
+}
+
+function showGameOver() {
+    closePopups();
+    let style = document.getElementById(screenGameOver).style;
+    style.display = displayTrue;
+}
+
+function showStarshipAtPlanet(starship : string) {
+    closePopups();
+    let style = document.getElementById(screenStarshipAtPlanet).style;
+    let planet : string = game.starships[starship].position;
     setPlanet(planet);
-    setStarship(x);
-    listCargo(x);
+    listCargo(starship);
     listGoods(planet);
     style.display = displayTrue;
 }
 
-function whichScreen() {
-    if (document.getElementById(screenStarship).style.display === displayTrue) {
-        return screenStarship;
+function showStarshipEnRoute(starship : string) {
+    closePopups();
+    let style = document.getElementById(screenStarshipEnRoute).style;
+    let planet : string = game.starships[starship].position;
+    setStarship(starship);
+    style.display = displayTrue;
+}
+
+function startGame() {
+    function updateTime() {
+        let elements = document.getElementsByClassName("remaining-time");
+        for (let i = 0; i < elements.length; ++i) {
+            let el = <HTMLTableElement> elements[i];
+            el.textContent = game.remainingTime.toString();
+        }
     }
-    if (document.getElementById(screenPlanet).style.display === displayTrue) {
+    updateTime();
+    let clock = setInterval(() => {
+        if (game.remainingTime === 0) {
+            clearInterval(clock);
+            gameOver();
+            return;
+        }
+        --game.remainingTime;
+        updateTime();
+    }, 1000)
+}
+
+function prepareGame() {
+    parsed = JSON.parse(jsonString);
+    credits = parsed.initial_credits;
+    game = new GameState();
+    game.credits = parsed.initial_credits;
+    game.remainingTime = parsed.game_duration;
+
+    document.getElementById("welcome").style.display = displayFalse;
+    document.getElementById("game-main").style.display = "block";
+    closePopups();
+
+    for (let i in parsed.planets) {
+        game.planets[i] = new Position(i);
+        let items = parsed.planets[i].available_items;
+        for (let j in items) {
+            game.planets[i].available_items[j] = new Good(j, i);
+        }
+    }
+
+    for (let i in parsed.starships) {
+        game.starships[i] = new Starship(i);
+    }
+
+    listPlanets();
+    listStarships();
+    startGame();
+    creditsUpdate(0);
+}
+
+function whichScreen() {
+    function isVisible(x : string) {
+        let style : CSSStyleDeclaration;
+        style = document.getElementById(x).style
+        return style.display === displayTrue;
+    }
+    if (isVisible(screenTrade)) {
+        return screenTrade;
+    }
+    if (isVisible(screenPlanet)) {
         return screenPlanet;
     }
-    return new String();
-}
-
-const displayFalse = "none";
-const displayTrue = "flex";
-const screenPlanet = "planet-pop-up";
-const screenStarship = "ship-at-planet";
-
-let parsed = JSON.parse(jsonString);
-let credits : number = parsed.initial_credits;
-let game = new GameState();
-
-closePopups();
-
-for (let i in parsed.planets) {
-    game.planets[i] = parsed.planets[i];
-    game.planets[i].name = i;
-    let items = parsed.planets.available_items;
-    for (let j in items) {
-        let item : Good = parsed.planets[i].available_items[j];
-        game.planets[i].available_items[j] = item;
+    if (isVisible(screenStarshipAtPlanet)) {
+        return screenStarshipAtPlanet;
     }
+    if (isVisible(screenStarshipEnRoute)) {
+        return screenStarshipEnRoute;
+    }
+    return "";
 }
 
-for (let i in parsed.starships) {
-    game.starships[i] = parsed.starships[i];
-}
-
-listPlanets();
-listStarships();
+// document.getElementById("game-main").style.display = displayFalse;
