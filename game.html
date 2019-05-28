@@ -6,55 +6,6 @@
     <title>Space Trader</title>
   </head>
   <body>
-    <!-- welcome screen -->
-    <div class="game-screen" id="welcome">      
-        <div class="card" onclick="prepareGame()">
-          <img src="launch.jpg" alt="missing image">
-          <br>
-          Start
-        </div>
-        <div class="card">
-          <img src="spacewalk.jpg" alt="missing image">
-          <br>
-          Help
-        </div>
-        <div class="card">
-          <img src="voyager.png" alt="missing image">
-          <br>
-          About
-        </div>
-        <table class="double-list">
-          <caption>High scores</caption>
-          <tr><th><div>name</div><div>score</div></th></tr>
-          <tr><td><div>Liu_H</div><div>31415927</div></td></tr>
-          <tr><td><div>Leo_E</div><div>27182818</div></td></tr>
-          <tr><td><div>Phil_B</div><div>16180340</div></td></tr>
-          <tr><td><div>Pete_G</div><div>14142136</div></td></tr>
-          <tr><td><div>Leo_E</div><div>6700417</div></td></tr>
-          <tr><td><div>Peter_C</div><div>524287</div></td></tr>
-          <tr><td><div>Peter_C</div><div>131071</div></td></tr>
-       </table>
-      </div>
-
-    <!-- main game screen -->
-    <div id="game-main" style="display: none">
-      <div class="info-box">
-        <p>Logged in as <a class="player-name"></a></p>
-        <p><a>Log out</a></p>
-        <p>Credits: <a class="credits"></a></p>
-        <p>Time: <a class="remaining-time"></a></p>
-      </div>
-      <div class="game-screen">
-        <table class="double-list starships">
-          <caption>Operating fleet</caption>
-          <tr><th><div>Name</div><div>Location</div></th></tr>
-        </table>
-        <table class="double-list planets">
-          <caption>Observable planets</caption>
-          <tr><th><div>Name</div><div>Coordinates</div></th></tr>
-        </table>
-     </div>
-    </div>
 
     <!-- buy/sell screen -->
     <div class="pop-up" id="buy-sell" style="display: none">
@@ -70,12 +21,46 @@
 
     <!-- "game over" screen -->
     <div class="pop-up" id="game-over" style="display: none">
-      <a href="index.html"></a>
+      <a onclick="refresh()"></a>
       <div class="description">
         <h1>Game over</h1>
         <h2>Your score: <a class="credits"></a></h2>
       </div>
       <a href="index.html"></a>
+    </div>
+
+    <!-- login screen -->
+    <div style="display: none">
+      <a class="backdrop" onclick="refresh()"></a>
+      <div class="login-form">
+        <form action="game.html">
+          <h1>Username</h1>
+          <input type="text" value="" />
+          <h1>Password</h1>
+          <input type="password" value="" />
+          <input type="submit" value="Start"/>
+        </form>
+      </div>
+    </div>
+
+    <!-- main game screen -->
+    <div>
+      <div class="info-box" style="display: none">
+        <p>Logged in as <a class="player-name"></a></p>
+        <p><a>Log out</a></p>
+        <p>Credits: <a class="credits"></a></p>
+        <p>Time: <a class="remaining-time"></a></p>
+      </div>
+      <div class="game-screen" id="game-main" style="display: none">
+        <table class="double-list starships">
+          <caption>Operating fleet</caption>
+          <tr><th><div>Name</div><div>Location</div></th></tr>
+        </table>
+        <table class="double-list planets">
+          <caption>Observable planets</caption>
+          <tr><th><div>Name</div><div>Coordinates</div></th></tr>
+        </table>
+      </div>
     </div>
 
     <!-- planet -->
@@ -139,6 +124,38 @@
       </div>
       <a href="#"></a>
     </div>
+
+    <!-- welcome screen -->
+    <div class="game-screen" id="welcome">      
+      <div class="card" onclick="prepareGame()">
+        <img src="launch.jpg" alt="missing image">
+        <br>
+        Start
+      </div>
+      <div class="card">
+        <img src="spacewalk.jpg" alt="missing image">
+        <br>
+        Help
+      </div>
+      <div class="card">
+        <img src="voyager.png" alt="missing image">
+        <br>
+        About
+      </div>
+      <table class="double-list">
+        <caption>High scores</caption>
+        <tr><th><div>name</div><div>score</div></th></tr>
+        <tr><td><div>Liu_H</div><div>31415927</div></td></tr>
+        <tr><td><div>Leo_E</div><div>27182818</div></td></tr>
+        <tr><td><div>Phil_B</div><div>16180340</div></td></tr>
+        <tr><td><div>Pete_G</div><div>14142136</div></td></tr>
+        <tr><td><div>Leo_E</div><div>6700417</div></td></tr>
+        <tr><td><div>Peter_C</div><div>524287</div></td></tr>
+        <tr><td><div>Peter_C</div><div>131071</div></td></tr>
+      </table>
+    </div>
+
+    <!-- script -->
     <script src="main.js"></script>
   </body>
 </html>
