@@ -6,52 +6,15 @@
     <title>Space Trader</title>
   </head>
   <body>
-
-    <!-- buy/sell screen -->
-    <div class="pop-up" id="buy-sell" style="display: none">
-      <a onclick="closePopups()"></a>
-      <div class="description">
-        <h1>buy/sell</h1>
-        <form>
-          <input type="number">
-        </form>
-      </div>
-      <a onclick="closePopups()"></a>
-    </div>
-
-    <!-- "game over" screen -->
-    <div class="pop-up" id="game-over" style="display: none">
-      <a onclick="refresh()"></a>
-      <div class="description">
-        <h1>Game over</h1>
-        <h2>Your score: <a class="credits"></a></h2>
-      </div>
-      <a href="index.html"></a>
-    </div>
-
-    <!-- login screen -->
-    <div style="display: none">
-      <a class="backdrop" onclick="refresh()"></a>
-      <div class="login-form">
-        <form action="game.html">
-          <h1>Username</h1>
-          <input type="text" value="" />
-          <h1>Password</h1>
-          <input type="password" value="" />
-          <input type="submit" value="Start"/>
-        </form>
-      </div>
-    </div>
-
     <!-- main game screen -->
-    <div>
-      <div class="info-box" style="display: none">
-        <p>Logged in as <a class="player-name"></a></p>
-        <p><a>Log out</a></p>
+    <div id="game-main" style="display: none">
+      <div class="info-box">
+        <p>Playing as <a class="player-name"></a></p>
+        <!-- <p><a onclick="refresh()">Abandon game</a></p> -->
         <p>Credits: <a class="credits"></a></p>
         <p>Time: <a class="remaining-time"></a></p>
       </div>
-      <div class="game-screen" id="game-main" style="display: none">
+      <div class="game-screen">
         <table class="double-list starships">
           <caption>Operating fleet</caption>
           <tr><th><div>Name</div><div>Location</div></th></tr>
@@ -63,33 +26,46 @@
       </div>
     </div>
 
-    <!-- planet -->
-    <div class="pop-up" id="planet-pop-up" style="display: none">
-        <a onclick="closePopups()"></a>
-        <div class="description">
-          <h1 class="planet-name"></h1>
-          <div class="game-screen">
-            <table class="double-list orbit">
-              <caption>Ships in orbit</caption>
-              <tr><th><div>Name</div><div></div></th></tr>
-              <tr><td><a href="#">Normandy SR2</a></td></tr>
-            </table>
-            <table class="double-list stockpile">
-              <caption>Stockpile</caption>
-              <tr><th><div>Good type</div><div>Amount</div></th></tr>
-            </table>
-          </div>
+    <!-- planet screen -->
+    <div class="pop-up" id="planet-pop-up">
+      <a onclick="closePopups()"></a>
+      <div class="description">
+        <h1 class="planet-name"></h1>
+        <div class="game-screen">
+
+          <table class="double-list orbit">
+            <caption>Ships in orbit</caption>
+            <tr><th><div>Name</div><div></div></th></tr>
+          </table>
+
+          <table class="double-list market">
+              <caption>Market</caption>
+              <tr><th><div>Good type</div><div>Bought for/Sold for</div></th></tr>
+            </table>  
+
+          <table class="double-list stockpile">
+            <caption>Stockpile</caption>
+            <tr><th><div>Good type</div><div>Amount</div></th></tr>
+          </table>
+
         </div>
-        <a onclick="closePopups()"></a>
       </div>
+      <a onclick="closePopups()"></a>
+    </div>
 
     <!-- starship at planet -->
-    <div class="pop-up" id="ship-at-planet" style="display: none">
+    <div class="pop-up" id="ship-at-planet">
       <a onclick="closePopups()"></a>
       <div class="description">
         <h1><a class="starship-name"></a></h1>
         <h2><a>at planet: </a><a class="planet-name"></a></h2>
         <div class="game-screen">
+
+          <table class="double-list market">
+            <caption>Market</caption>
+            <tr><th><div>Good type</div><div>Sold for/Bought for</div></th></tr>
+          </table>
+
           <table class="double-list cargo">
             <caption>Cargo</caption>
             <tr><th><div>Good type</div><div>Amount</div></th></tr>
@@ -109,7 +85,7 @@
     </div>
 
     <!-- starship en route -->
-    <div class="pop-up" id="starship-en-route" style="display: none">
+    <div class="pop-up" id="starship-en-route">
       <a onclick="closePopups()"></a>
       <div class="description">
         <h1><a class="starship-name"></a></h1>
@@ -118,16 +94,15 @@
           <table class="double-list">
             <caption>Cargo</caption>
             <tr><th><div>Good type</div><div>Amount</div></th></tr>
-            <tr><td><div>--</div><div>--</div></td></tr>
           </table>
         </div>
       </div>
-      <a href="#"></a>
+      <a onclick="closePopups()"></a>
     </div>
 
     <!-- welcome screen -->
     <div class="game-screen" id="welcome">      
-      <div class="card" onclick="prepareGame()">
+      <div class="card" onclick="clickPlay()">
         <img src="launch.jpg" alt="missing image">
         <br>
         Start
@@ -142,9 +117,9 @@
         <br>
         About
       </div>
-      <table class="double-list">
+      <table class="double-list scoreboard">
         <caption>High scores</caption>
-        <tr><th><div>name</div><div>score</div></th></tr>
+        <tr><th><div>Name</div><div>Score</div></th></tr>
         <tr><td><div>Liu_H</div><div>31415927</div></td></tr>
         <tr><td><div>Leo_E</div><div>27182818</div></td></tr>
         <tr><td><div>Phil_B</div><div>16180340</div></td></tr>
@@ -153,6 +128,52 @@
         <tr><td><div>Peter_C</div><div>524287</div></td></tr>
         <tr><td><div>Peter_C</div><div>131071</div></td></tr>
       </table>
+    </div>
+
+    <!-- login screen -->
+    <div class="pop-up" id="login">
+      <a onclick="refresh()"></a>
+      <div class="description">
+        <h1>Username</h1>
+        <input id="player-name-input" type="text" value="" />
+        <button onclick="clickStart()">Continue</button>
+      </div>
+      <a onclick="refresh()"></a>
+    </div>
+
+    <!-- buy screen -->
+    <div class="pop-up" id="buy">
+      <a onclick="clickTradeBackdrop()"></a>
+      <div class="description">
+        <h1>Buy goods</h1>
+        <table class="double-list offers">
+            <tr><th><div>Amount</div><div>Price</div></th></tr>
+        </table>
+      </div>
+      <a onclick="clickTradeBackdrop()"></a>
+    </div>
+  
+    <!-- sell screen -->
+    <div class="pop-up" id="sell">
+      <a onclick="clickTradeBackdrop()"></a>
+      <div class="description">
+        <h1>Sell goods</h1>
+        <table class="double-list offers">
+            <tr><th><div>Amount</div><div>Price</div></th></tr>
+        </table>
+      </div>
+      <a onclick="clickTradeBackdrop()"></a>
+    </div>
+
+    <!-- "game over" screen -->
+    <div class="pop-up" id="game-over">
+      <a onclick="refresh()"></a>
+      <div class="description">
+        <h1>Game over</h1>
+        <h2>Your score: <a class="credits"></a></h2>
+        <img src="planet.jpg" alt="missing image">
+      </div>
+      <a onclick="refresh()"></a>
     </div>
 
     <!-- script -->
