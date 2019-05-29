@@ -936,7 +936,9 @@ function depart(destination: string) {
 
 function gameOver() {
     addScore(game.credits, game.playerName);
-    trimScores();
+    while(localStorage.length > 10) {
+        trimScores();
+    }
     showGameOver();
 }
 
