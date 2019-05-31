@@ -956,7 +956,7 @@ function depart(destination: string) {
     starship.position = destination;
     showStarshipEnRoute(game.currentStarship);
     setTimeout(() => {
-        arrive(game.currentStarship)
+        arrive(starship.name)
     }, timeMultiplier * getDistance(destination))
 }
 

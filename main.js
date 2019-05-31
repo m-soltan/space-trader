@@ -178,7 +178,7 @@ function depart(destination) {
     starship.position = destination;
     showStarshipEnRoute(game.currentStarship);
     setTimeout(function () {
-        arrive(game.currentStarship);
+        arrive(starship.name);
     }, timeMultiplier * getDistance(destination));
 }
 function gameOver() {
