@@ -1268,6 +1268,10 @@ function setStarship(x: string) {
     }
 }
 
+function showAbout() {
+    window.location.href = "wip.html";
+}
+
 function showBuy(good: string) {
     let items = game.planets[game.currentPlanet].available_items;
     let price = items[good].buy_price;
@@ -1287,6 +1291,10 @@ function showBuy(good: string) {
 function showGameOver() {
     closePopups();
     document.getElementById(screenGameOver).style.display = displayFlex;
+}
+
+function showHelp() {
+    window.location.href = "help.html";
 }
 
 function showNameChoice() {
