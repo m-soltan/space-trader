@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="EN">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <title>Space Trader</title>
+  </head>
+  <body>
+    <!-- main game screen -->
+    <div id="game-main" style="display: none">
+      <div class="info-box">
+        <p>Playing as <a class="player-name"></a></p>
+        <!-- <p><a onclick="refresh()">Abandon game</a></p> -->
+        <p>Credits: <a class="credits"></a></p>
+        <p>Time: <a class="remaining-time"></a></p>
+      </div>
+      <div class="game-screen">
+        <table class="double-list starships">
+          <caption>Operating fleet</caption>
+          <tr><th><div>Name</div><div>Location</div></th></tr>
+        </table>
+        <table class="double-list planets">
+          <caption>Observable planets</caption>
+          <tr><th><div>Name</div><div>Coordinates</div></th></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- planet screen -->
+    <div class="pop-up" id="planet-pop-up">
+      <a onclick="closePopups()"></a>
+      <div class="description">
+        <h1 class="planet-name"></h1>
+        <div class="game-screen">
+
+          <table class="double-list orbit">
+            <caption>Ships in orbit</caption>
+            <tr><th><div>Name</div><div></div></th></tr>
+          </table>
+
+          <table class="double-list market">
+              <caption>Market</caption>
+              <tr><th><div>Good type</div><div>Bought for/Sold for</div></th></tr>
+            </table>  
+
+          <table class="double-list stockpile">
+            <caption>Stockpile</caption>
+            <tr><th><div>Good type</div><div>Amount</div></th></tr>
+          </table>
+
+        </div>
+      </div>
+      <a onclick="closePopups()"></a>
+    </div>
+
+    <!-- starship at planet -->
+    <div class="pop-up" id="ship-at-planet">
+      <a onclick="closePopups()"></a>
+      <div class="description">
+        <h1><a class="starship-name"></a></h1>
+        <h2><a>at planet: </a><a class="planet-name"></a></h2>
+        <div class="game-screen">
+
+          <table class="double-list market">
+            <caption>Market</caption>
+            <tr><th><div>Good type</div><div>Sold for/Bought for</div></th></tr>
+          </table>
+
+          <table class="double-list cargo">
+            <caption>Cargo</caption>
+            <tr><th><div>Good type</div><div>Amount</div></th></tr>
+          </table>
+          
+          <table class="double-list stockpile">
+            <caption>Stockpile</caption>
+            <tr><th><div>Good type</div><div>Amount</div></th></tr>
+          </table>
+          <table class="double-list planets">
+            <caption>Destinations</caption>
+            <tr><th><div>Planet</div><div>Coordinates</div></th></tr>
+          </table>
+        </div>
+      </div>
+      <a onclick="closePopups()"></a>
+    </div>
+
+    <!-- starship en route -->
+    <div class="pop-up" id="starship-en-route">
+      <a onclick="closePopups()"></a>
+      <div class="description">
+        <h1><a class="starship-name"></a></h1>
+        <h2>en route to <a class="planet-name"></a></h2>
+        <div class="game-screen">
+          <table class="double-list cargo">
+            <caption>Cargo</caption>
+            <tr><th><div>Good type</div><div>Amount</div></th></tr>
+          </table>
+        </div>
+      </div>
+      <a onclick="closePopups()"></a>
+    </div>
+
+    <!-- welcome screen -->
+    <div class="game-screen" id="welcome">      
+      <div class="card" onclick="clickPlay()">
+        <img src="launch.jpg" alt="missing image">
+        <br>
+        Start
+      </div>
+      <div class="card" onclick="showHelp()">
+        <img src="spacewalk.jpg" alt="missing image">
+        <br>
+        Help
+      </div>
+      <div class="card" onclick="showAbout()">
+        <img src="voyager.png" alt="missing image">
+        <br>
+        About
+      </div>
+      <table class="double-list scoreboard">
+        <caption>High scores</caption>
+        <tr><th><div>Name</div><div>Score</div></th></tr>
+      </table>
+    </div>
+
+    <!-- login screen -->
+    <div class="pop-up" id="login">
+      <a onclick="refresh()"></a>
+      <div class="description">
+        <h1>Who are you?</h1>
+        <form action="/login" method="POST">
+          <h2>User name</h2>
+          <input id="player-name-input" type="text" value=""/>
+          <h2>Password</h2>
+          <input id="player-password-input" type="text" value=""/>
+          <button onclick="clickStart()">Continue</button>
+        </form>
+        <img src="corridor.jpg" alt="missing image">
+      </div>
+      <a onclick="refresh()"></a>
+    </div>
+
+    <!-- buy screen -->
+    <div class="pop-up" id="buy">
+      <a onclick="clickTradeBackdrop()"></a>
+      <div class="description">
+        <h1>Buy goods</h1>
+        <table class="double-list offers">
+            <tr><th><div>Amount</div><div>Price</div></th></tr>
+        </table>
+      </div>
+      <a onclick="clickTradeBackdrop()"></a>
+    </div>
+  
+    <!-- sell screen -->
+    <div class="pop-up" id="sell">
+      <a onclick="clickTradeBackdrop()"></a>
+      <div class="description">
+        <h1>Sell goods</h1>
+        <table class="double-list offers">
+            <tr><th><div>Amount</div><div>Price</div></th></tr>
+        </table>
+      </div>
+      <a onclick="clickTradeBackdrop()"></a>
+    </div>
+
+    <!-- "game over" screen -->
+    <div class="pop-up" id="game-over">
+      <a onclick="refresh()"></a>
+      <div class="description">
+        <h1>Game over</h1>
+        <h2>Your score: <a class="credits"></a></h2>
+        <img src="planet.jpg" alt="missing image">
+      </div>
+      <a onclick="refresh()"></a>
+    </div>
+
+    <!-- script -->
+    <script src="main.js"></script>
+  </body>
+</html>
